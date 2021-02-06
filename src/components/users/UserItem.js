@@ -1,5 +1,5 @@
 import React from 'react';
-import PropsType from 'prop-types';
+import PropType from 'prop-types';
 
 
 const UserItem = (props) => {
@@ -21,8 +21,8 @@ const UserItem = (props) => {
 }
 
 
-UserItem.PropsType = {
-    user: PropsType.object.isRequired
+UserItem.propType = {
+    user: PropType.object.isRequired
 };
 
 
