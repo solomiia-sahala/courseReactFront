@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
 import Search from './components/users/Search';
+import User from './components/users/User';
 import Alert from './components/layout/Alert';
 import About from './components/pages/About';
 import axios from 'axios';
@@ -56,7 +57,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { users, loading } = this.state;
+    const { users, user, loading } = this.state;
     return (
       <Router>
         <div className="App">
@@ -76,6 +77,9 @@ class App extends React.Component {
                 </React.Fragment>
               )} />
               <Route exact path="/about" component={About} />
+              <Route exact path="/user/:login" render={props => (
+                <User {...props} getUser={this.getUser} user={user} loading={loading} />
+              )} />
             </Switch>
           </div>
         </div>
