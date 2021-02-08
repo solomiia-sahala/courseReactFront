@@ -1,27 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import Spinner from '../layout/Spinner';
-import PropTypes from 'prop-types';
+import Repos from '../repos/Repos';
 import { Link } from 'react-router-dom';
+import GithubContext from '../../context/github/githubContext';
 
-const User = (props) => {
+const User = ({ match }) => {
+    const githubContext = useContext(GithubContext)
+    const { loading, getUser, user, getUserRepos, repos } = githubContext;
     const {
         name,
         avatar_url,
         bio,
-        blog,
-        login,
         html_url,
         followers,
         following,
         public_repos,
         public_gists,
-    } = props.user;
+    } = user;
 
     useEffect(() => {
-        props.getUser(props.match.params.login);
+        getUser(match.params.login);
+        getUserRepos(match.params.login);
     }, [])
 
-    if (props.loading) {
+    if (loading) {
         return <Spinner />
     }
     return (
@@ -29,7 +31,7 @@ const User = (props) => {
             <Link to="/" className="btn btn-light">Back to search</Link>
             <div className="card grid-2">
                 <div className="all-center">
-                    <img src={avatar_url} className="img" style={{ width: "150px" }} />
+                    <img src={avatar_url} className="img" alt="" style={{ width: "150px" }} />
                     <h1>{name}</h1>
                 </div>
                 <div>
@@ -45,17 +47,13 @@ const User = (props) => {
                 <div className="badge badge-primary">Followers: {followers} </div>
                 <div className="badge badge-success">Following: {following} </div>
                 <div className="badge badge-danger">Public Repos: {public_repos} </div>
-                <div className="badge badge-dark">Public Gists: {public_gists} </div>
+                <div className="badge badge-dark">Public Gists: {public_gists} </div>ç
             </div>
+            <Repos repos={repos} />
         </div>
     )
 }
 
-User.propTypes = {
-    getUser: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired
-}
 
 export default User;
 
